@@ -16,7 +16,11 @@ grammar UFABCGrammar;
     private Types leftType=null, rightType=null;
     private Program program = new Program();
     private String strExpr = "";
+    private String strAux = "";
+    private String strAt = "";
     private IfCommand currentIfCommand;
+    private WhileCommand currentWhileCommand;
+    private DoWhileCommand currentDoWhileCommand;
     
     private Stack<ArrayList<Command>> stack = new Stack<ArrayList<Command>>();
     
@@ -58,7 +62,8 @@ programa	: 'programa' ID  { program.setName(_input.LT(-1).getText());
 			;
 						
 declaravar	: 'declare' { currentDecl.clear(); } 
-               ID  { currentDecl.add(new Var(_input.LT(-1).getText()));}
+               ID  { currentDecl.add(new Var(_input.LT(-1).getText()));
+               strAux= _input.LT(-1).getText();}
                ( VIRG ID                
               		 { currentDecl.add(new Var(_input.LT(-1).getText()));}
                )*	 
@@ -77,8 +82,61 @@ comando     :  cmdAttrib
 			|  cmdLeitura
 			|  cmdEscrita
 			|  cmdIF
+			|  cmdWhile
+			|  cmdFor
 			;
-			
+
+
+cmdFor      : 'fazer' { 
+						   currentDoWhileCommand = new DoWhileCommand();
+                           strExpr = "";
+                           stack.push(new ArrayList<Command>());
+					     }
+               comando+ 
+               { currentDoWhileCommand.setList(stack.pop()); }  
+              'enquantof'
+               AP
+               expr
+               OPREL  { strExpr += _input.LT(-1).getText(); }
+               expr 
+               ((OPL 	{ if(_input.LT(-1).getText().equals("E")) strExpr += " && "; else strExpr += " || "; }
+               expr 
+               OPREL  { strExpr += _input.LT(-1).getText(); }
+               expr)+)?
+               FP
+               PV
+               
+               {
+               		currentDoWhileCommand.setExpression(strExpr);
+               		stack.peek().add(currentDoWhileCommand);
+               }  	
+             ;
+
+
+
+
+cmdWhile    : 'enquanto' { 
+						   currentWhileCommand = new WhileCommand();
+                           strExpr = "";
+                           stack.push(new ArrayList<Command>());
+					     }
+			   AP 
+               expr
+               OPREL  { strExpr += _input.LT(-1).getText(); }
+               expr 
+               ((OPL 	  { if(_input.LT(-1).getText().equals("E")) strExpr += " && "; else strExpr += " || "; }
+               expr 
+               OPREL  { strExpr += _input.LT(-1).getText(); }
+               expr)+)?
+               FP { currentWhileCommand.setExpression(strExpr);}
+               comando+ 
+               { currentWhileCommand.setList(stack.pop()); }  
+               'fimenquanto'
+               {
+               		stack.peek().add(currentWhileCommand);
+               }  	
+             ;
+			   			
 cmdIF		: 'se'  { stack.push(new ArrayList<Command>());
                       strExpr = "";
                       currentIfCommand = new IfCommand();
@@ -113,12 +171,15 @@ cmdIF		: 'se'  { stack.push(new ArrayList<Command>());
 cmdAttrib   : ID { if (!isDeclared(_input.LT(-1).getText())) {
                        throw new UFABCSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
                    }
+                   strExpr = "";
+                   strAux = _input.LT(-1).getText();
                    symbolTable.get(_input.LT(-1).getText()).setInitialized(true);
                    leftType = symbolTable.get(_input.LT(-1).getText()).getType();
+                   rightType=null;
                  }
-              OP_AT 
+              OP_AT
               expr 
-              PV
+              PV	
               
               {
                  System.out.println("Left  Side Expression Type = "+leftType);
@@ -126,6 +187,8 @@ cmdAttrib   : ID { if (!isDeclared(_input.LT(-1).getText())) {
                  if (leftType.getValue() < rightType.getValue()){
                     throw new UFABCSemanticException("Type Mismatchig on Assignment");
                  }
+              	 AttribCommand cmdAtrrib = new AttribCommand(symbolTable.get(strAux), strExpr);
+              	 stack.peek().add(cmdAtrrib);
               }
 			;			
 			

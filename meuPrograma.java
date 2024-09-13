@@ -6,15 +6,6 @@ public class meuPrograma{
     int b;
     String x;
     String y;
-System.out.println("Hello World");
-System.out.println("Fim do programa");
-a = _scTrx.nextInt();
-b = _scTrx.nextInt();
-System.out.println(a);
-if (a+5>a-4 && a==a) {System.out.println("maior que 5");
-}else {System.out.println("menor que 5");
-}System.out.println("oi agora vamos testar outro");
-if (b>=0 || b==1) {System.out.println("b positivo");
-}else {System.out.println("b negativo");
-}   }
+ do{System.out.println("oi");
+} while (1>2);   }
 }

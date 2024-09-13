@@ -28,10 +28,9 @@ public class MainClass {
 			parser = new UFABCGrammarParser(tokenStream);
 			
 			
-			// agora eu quero chamar do meu jeito
-			System.out.println("UFABC Compiler");
+	
 			parser.programa();
-			System.out.println("Compilation Successfully - Good Job");
+		
 
 
 			/* vou deixar aqui a geracao do codigo do programa*/
@@ -49,7 +48,13 @@ public class MainClass {
 				ex.printStackTrace();
 			}
 			
+			for(var s : program.getSymbolTable().values()) {
+				if(!s.isInitialized()) {
+					System.out.println("Aviso: A variável "+ s.getId() + " foi declarada e não está sendo usada" );
+				}
+			}
 			
+			System.out.println("Compilation Successfully - Good Job");
 		}
 		catch(Exception ex) {
 			System.err.println("Error: "+ex.getMessage());
