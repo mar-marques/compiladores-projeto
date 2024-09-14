@@ -83,18 +83,17 @@ comando     :  cmdAttrib
 			|  cmdEscrita
 			|  cmdIF
 			|  cmdWhile
-			|  cmdFor
+			|  cmdDo
 			;
 
 
-cmdFor      : 'fazer' { 
+cmdDo      : 'fazer' { 
 						   currentDoWhileCommand = new DoWhileCommand();
-                           strExpr = "";
                            stack.push(new ArrayList<Command>());
 					     }
                comando+ 
                { currentDoWhileCommand.setList(stack.pop()); }  
-              'enquantof'
+              'enquantof' {strExpr = "";}
                AP
                expr
                OPREL  { strExpr += _input.LT(-1).getText(); }
