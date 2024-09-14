@@ -36,7 +36,6 @@ public class MainClass {
 			/* vou deixar aqui a geracao do codigo do programa*/
 			Program program = parser.getProgram();
 			
-			System.out.println(program.generateTarget());
 			try {
 				File f = new File(program.getName()+".java");
 				FileWriter fr = new FileWriter(f);
