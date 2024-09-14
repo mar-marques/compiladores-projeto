@@ -2,9 +2,23 @@ programa meuPrograma
 	declare a,b: number;
 	declare x,y: text;
 	inicio
+	
+		a := 2;
+		x := "Ola mundo";
+	
+		leia(b);
+		
 		fazer
-			escreva("oi");
-		enquantof ( 1 > 2);
+			escreva(x);
+			a := a + 1;
+		enquantof ( b > a);
+		
+		se(b < a OU b == a) entao
+			escreva("nao entrou no fazer enquanto");
+		senao
+			escreva("entrou");
+		fimse
+		
 	fim
 fimprog
 
