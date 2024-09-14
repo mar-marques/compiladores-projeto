@@ -14,5 +14,5 @@ Foi utilizada a biblioteca Antrl para gerar o analisador léxico e sintático. C
 
 ### Descrição: 
 
-Na linguagem IsLanguage desenvolvida nesse projeto é possível declarar variáveis, atribuir valores a variáveis, criar expressões, ler valores, escrever valores, criar duas estruturas de repetição e uma estrutura condicional. Para informações mais detalhadas sobre as definições da linguagem, acesse o arquivo documentacao.pdf
+Na linguagem IsLanguage desenvolvida nesse projeto é possível declarar variáveis, atribuir valores a variáveis, criar expressões, ler valores, escrever valores, criar duas estruturas de repetição e uma estrutura condicional. Para informações mais detalhadas sobre as definições da linguagem, acesse o arquivo Documentação.pdf
 
