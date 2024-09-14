@@ -53,7 +53,6 @@ public class MainClass {
 				}
 			}
 			
-			System.out.println("Compilation Successfully - Good Job");
 		}
 		catch(Exception ex) {
 			System.err.println("Error: "+ex.getMessage());
