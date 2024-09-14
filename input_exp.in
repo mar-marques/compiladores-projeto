@@ -1,7 +1,0 @@
-programa meuPrograma
-    declare a : number;
-    inicio
-		a := 2 + 3.14 - 5 * 8.56 / a - a *	a;
-        leia(a)
-	fim
-fimprog
